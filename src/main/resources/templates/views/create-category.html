@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en-US">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/views/layout :: head">
+</head>
+
+<body>
+<!-- HEADER -->
+<header th:replace="/views/layout :: header">
+</header>
+
+
+<!-- MAIN -->
+<main>
+    <div class="container">
+        <div class="create">
+            <div class="create__head">
+                <div class="create__title"><img src="/assert/fonts/icons/main/New_Topic.svg" alt="New topic">Create Category</div>
+            </div>
+            <div th:if="${error}" style="color: red">
+                <span th:text="${error}"></span>
+            </div>
+            <div th:if="${message}" style="color: green">
+                <span th:text="${message}"></span>
+            </div>
+            <form th:action="@{/create-or-update-cate}" method="post" th:object="${category}">
+                <input type="hidden" th:field="*{cateId}">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="create__section">
+                            <label class="create__label" for="CategoryName">Category Name</label>
+                            <input type="text" class="form-control" id="CategoryName" placeholder="Add here" th:field="*{cateName}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="create__section">
+                            <label class="create__label" for="CategoryColor">Select color of category</label>
+                            <input type="color" class="form-control" id="CategoryColor" placeholder="Add here" th:field="*{color}">
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="create__section">-->
+<!--                    <p th:text="${message}" style="color: green"></p>-->
+<!--&lt;!&ndash;                    <label class="create__label" for="tags">Add Tags</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <input type="text" class="form-control" id="tags" placeholder="e.g. nature, science">&ndash;&gt;-->
+<!--                </div>-->
+
+                <div class="create__footer">
+                    <a th:href="@{/categories}" class="create__btn-cansel btn">Cancel</a>
+                    <button type="submit" class="create__btn-create btn btn--type-02">Create Category</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer th:replace="/views/layout :: footer">
+
+</footer>
+
+</body>
+</html>

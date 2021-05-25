@@ -1,0 +1,168 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en-US">
+<head th:replace="/views/layout :: head">
+
+</head>
+<body>
+<!-- HEADER -->
+<header th:replace="/views/layout :: header">
+
+</header>
+
+<!-- MAIN -->
+<!--<a href="/login">LOGIN</a>-->
+<main>
+    <div class="container">
+        <div class="nav">
+            <div class="nav__categories js-dropdown">
+                <div class="nav__select">
+                    <div class="btn-select" data-dropdown-btn="categories" th:text="#{all_categories}">All Categories</div>
+                    <nav  class="dropdown dropdown--design-01" data-dropdown-list="categories">
+                        <ul  class="dropdown__catalog row">
+                            <li th:each="category: ${categories}" class="col-xs-6">
+                                <a th:href="@{'/get-topic-by-cate'(id=${category.cateId})}" class="category">
+                                    <i th:style="'background-color:'+${category.color}"></i>
+                                    <span th:text="${category.getCateName()}"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="nav__select">
+                    <div class="btn-select" data-dropdown-btn="tags" th:text="#{tags}">Tags</div>
+                    <div class="dropdown dropdown--design-01" data-dropdown-list="tags">
+                        <div class="tags">
+                            <th:block th:each="hastag,state : ${hastags}">
+                                <a th:href="@{'/get-topic-by-hastag'(id=${hastag.hastagId})}" th:class="${state.index}==0 ? 'bg-ff0031':'bg-3b96ca'" th:text="${hastag.getHastagName()}"></a>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav__menu js-dropdown">
+                <div class="nav__select">
+                    <div class="btn-select" data-dropdown-btn="menu" th:text="#{latest}">Latest</div>
+                    <div class="dropdown dropdown--design-01" data-dropdown-list="menu">
+                        <ul class="dropdown__catalog">
+                            <li><a href="#" th:text="#{latest}">Latest</a></li>
+                            <li><a href="#" th:text="#{unread}">Unread</a></li>
+                            <li><a href="#" th:text="#{rising}">Rising</a></li>
+                            <li><a href="#" th:text="#{most_Liked}">Most Liked</a></li>
+                            <li><a href="#" th:text="#{follow_Feed}">Follow Feed</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <ul>
+                    <li class="active"><a href="#" th:text="#{latest}">Latest</a></li>
+                    <li><a href="#" th:text="#{unread}">Unread</a></li>
+                    <li><a href="#" th:text="#{rising}">Rising</a></li>
+                    <li><a href="#" th:text="#{most_Liked}">Most Liked</a></li>
+                    <li><a href="#" th:text="#{follow_Feed}">Follow Feed</a></li>
+                </ul>
+            </div>
+            <div class="nav__thread">
+                <p th:text="#{thread_Navigation}">Thread Navigation:</p>
+            </div>
+            <div class="nav__thread" th:switch="${valueForPagination[0]}">
+                <a th:case="'homepage'" th:href="@{'/'(page=${topics.number - 1})}" th:if="${topics.hasPrevious()}" class="nav__thread-btn nav__thread-btn--prev"><i class="icon-Arrow_Left"></i><span th:text="#{previous}">Previous</span></a>
+                <a th:case="'searchpage'" th:href="@{'/search'(page=${topics.number - 1},searchTopic=${searchTopic})}" th:if="${topics.hasPrevious()}" class="nav__thread-btn nav__thread-btn--prev"><i class="icon-Arrow_Left"></i><span th:text="#{previous}">Previous</span></a>
+                <a th:case="'categorypage'" th:href="@{'/get-topic-by-cate'(page=${topics.number - 1},id=${valueForPagination[1]})}" th:if="${topics.hasPrevious()}" class="nav__thread-btn nav__thread-btn--prev"><i class="icon-Arrow_Left"></i><span th:text="#{previous}">Previous</span></a>
+                <a th:case="'hastagpage'" th:href="@{'/get-topic-by-hastag'(page=${topics.number - 1},id=${valueForPagination[1]})}" th:if="${topics.hasPrevious()}" class="nav__thread-btn nav__thread-btn--prev"><i class="icon-Arrow_Left"></i><span th:text="#{previous}">Previous</span></a>
+                <span th:text="${topics.number + 1}"></span>/<span th:text="${topics.totalPages}"></span>
+            </div>
+            <div class="nav__thread" th:switch="${valueForPagination[0]}">
+                <a th:case="'homepage'" th:href="@{'/'(page=${topics.number + 1})}" th:if="${topics.hasNext()}" class="nav__thread-btn nav__thread-btn--next"><span th:text="#{next}">Next</span><i class="icon-Arrow_Right"></i></a>
+                <a th:case="'searchpage'" th:href="@{'/search'(page=${topics.number + 1},searchTopic=${searchTopic})}" th:if="${topics.hasNext()}" class="nav__thread-btn nav__thread-btn--next"><span th:text="#{next}">Next</span><i class="icon-Arrow_Right"></i></a>
+                <a th:case="'categorypage'" th:href="@{'/get-topic-by-cate'(page=${topics.number + 1},id=${valueForPagination[1]})}" th:if="${topics.hasNext()}" class="nav__thread-btn nav__thread-btn--next"><span th:text="#{next}">Next</span><i class="icon-Arrow_Right"></i></a>
+                <a th:case="'hastagpage'" th:href="@{'/get-topic-by-hastag'(page=${topics.number + 1},id=${valueForPagination[1]})}" th:if="${topics.hasNext()}" class="nav__thread-btn nav__thread-btn--next"><span th:text="#{next}">Next</span><i class="icon-Arrow_Right"></i></a>
+            </div>
+        </div>
+        <div class="posts">
+            <div class="posts__head">
+                <div class="posts__topic" th:text="#{topic}">Topic</div>
+                <div class="posts__category" th:text="#{category}">Category</div>
+                <div class="posts__users" th:text="#{users}">Users</div>
+                <div class="posts__replies" th:text="#{replies}">Replies</div>
+                <div class="posts__views" th:text="#{views}">Views</div>
+                <div class="posts__activity" th:text="#{date}">Date</div>
+<!--                <div class="posts__activity" th:text="#{action}">Action</div>-->
+            </div>
+            <div class="posts__body">
+                <div th:each="topic :${topics}" class="posts__item bg-f2f4f6">
+                    <div class="posts__section-left">
+                        <div class="posts__topic">
+                            <div class="posts__content">
+                                <a th:href="@{/detail/__${topic.topicId}__/list}">
+                                    <h3 th:text="${topic.title}"></h3>
+                                </a>
+                                <th:block th:each="entry : ${listHastagWithTopicId}">
+                                    <div class="posts__tags tags" th:if="${entry.key} == ${topic.topicId}" >
+                                        <th:block th:each="valueEntry : ${entry.value}">
+                                            <a th:text="${valueEntry.getHastagName()}" th:href="@{'/get-topic-by-hastag'(id=${valueEntry.getHastagId()})}" class="bg-3b96ca"></a>
+                                        </th:block>
+                                    </div>
+                                </th:block>
+
+                                <div sec:authorize="hasRole('ADMIN')">
+                                                <span>
+                                                   <a th:href="@{/edit-topic/__${topic.topicId}__}">
+                                                       <img src="/assert/fonts/icons/avatars/icons8-edit.svg"
+                                                            alt="edit" width="20" height="20">
+                                                   </a>
+                                                    <a th:href="@{/delete-topic-post/__${topic.topicId}__}">
+                                                        <img src="/assert/fonts/icons/avatars/icons8-remove.svg"
+                                                             alt="remove" width="20" height="20">
+                                                    </a>
+                                                </span>
+                                </div>
+                                <div sec:authorize="hasRole('MOD')">
+                                                <span>
+                                                   <a th:href="@{/edit-topic/__${topic.topicId}__}">
+                                                       <img src="/assert/fonts/icons/avatars/icons8-edit.svg"
+                                                            alt="edit" width="20" height="20">
+                                                   </a>
+                                                    <a th:href="@{/delete-topic-post/__${topic.topicId}__}">
+                                                        <img src="/assert/fonts/icons/avatars/icons8-remove.svg"
+                                                             alt="remove" width="20" height="20">
+                                                    </a>
+                                                </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="posts__category">
+                            <a class="category" >
+                                <i th:style="'background-color:'+${topic.getCategory().getColor()} + ';'"></i>
+                                <p th:text="${topic.getCategory().getCateName()}" ></p>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="posts__section-right">
+                        <div class="posts__users">
+                            <div>
+                                <a th:href="@{/detail-user/__${topic.user.id}__}" class="avatar">
+                                    <img th:src="@{'/assert/img/' + ${topic.getUser().getAvatar()}}"  alt="avatar"></a>
+<!--                                <a href="#" class="avatar"><img src="assert/fonts/icons/avatars/A.svg" alt="avatar"></a>-->
+                            </div>
+                        </div>
+                        <th:block th:each="entry : ${countReplyByTopicId}">
+                            <div class="posts__replies" th:if="${entry.key} == ${topic.topicId}" th:text="${entry.value}"></div>
+                        </th:block>
+                        <div class="posts__views" th:text="${topic.topicView}"></div>
+                        <div class="posts__activity" th:text="${topic.getSimpleDate()}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer th:replace="/views/layout :: footer">
+
+</footer>
+
+</body>
+</html>

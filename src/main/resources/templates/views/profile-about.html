@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head th:replace="/views/profile-topic :: head">
+
+</head>
+<body>
+<!-- HEADER -->
+<header th:replace="/views/layout :: header">
+</header>
+<div class="wrapper">
+
+    <!--    **Đăng nhập và nếu click đúng user đăng nhập-->
+    <section class="videso_section" sec:authorize="isAuthenticated()" th:if="${user.getId()} == ${userCurrent.getId()}" >
+        <div class="info-pr-sec">
+            <div class="container">
+                <div class="vcp_inf cr">
+					<span class="vc_hd" >
+						 <img th:src="@{'/assert/img/' + ${userCurrent.avatar}}"  alt="avatar">
+					</span>
+                    <div class="vc_info pr">
+                        <h3 th:text="${userCurrent.fullName}" >DOG</h3>
+                        <span th:text="${userCurrent.level}">Level</span>
+                    </div>
+                </div><!--vcp_inf end-->
+                <div class="search_form">
+                    <form>
+                        <input type="text" name="search" placeholder="Search Videos">
+                        <button type="submit">
+                            <i class="icon-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div><!--info-pr-sec end-->
+        <div class="history-lst tbY">
+            <div class="container">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="about-tab" data-toggle="tab" th:href="@{/detail-user/__${user.id}__}" role="tab"
+                           aria-controls="about-tab" aria-selected="false">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <!--                        <a class="nav-link" id="amazon-tab" data-toggle="tab" href="#amazong-tb" role="tab"-->
+                        <!--                           aria-controls="amazon-tab" aria-selected="false">Amazon Products</a>-->
+                        <a class="nav-link" id="amazon-tab" data-toggle="tab" th:href="@{/detail-user/topic/__${user.id}__}" role="tab"
+                           aria-controls="amazon-tab" aria-selected="false">Topic</a>
+                    </li>
+                </ul><!--nav-tabs end-->
+                <div class="clearfix"></div>
+            </div>
+        </div><!--history-lst end-->
+        <div class="tab-content p-0" id="myTabContent">
+            <div class="tab-pane fade show active" id="about_tab" role="tabpanel" aria-labelledby="about-tab">
+                <div class="about_tab_content">
+                    <div class="container">
+                        <div class="description">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="decp_cotnet">
+                                        <h2 class="ab-fd">Description </h2>
+                                        <p>Welcome to the official Saturday Night Live channel on YouTube! Here you will
+                                            find your favorite sketches, behind the scenes clips and web exclusives,
+                                            featuring all your favorite hosts and cast members. Check out more SNL at
+                                            http://www.nbc.com/</p>
+                                    </div><!--abt-founder end-->
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="stats">
+                                        <h2 class="ab-fd">Stats</h2>
+                                        <ul>
+                                            <li th:text="'Joined ' + ${userCurrent.dateCreate}"></li>
+                                            <li>3,741,400,119 views</li>
+                                        </ul>
+                                    </div><!--stats end-->
+                                    <div class="flagg">
+                                        <ul>
+                                            <li>
+                                                <a href="#" title="">
+                                                    <i class="icon-flag"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" title="">
+                                                    <i class="icon-message"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div><!--flagg end-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--about_tab_content end-->
+            </div>
+        </div>
+    </section><!--Featured Videos end-->
+    <!--   **Khách vãng lai-->
+    <section class="videso_section" sec:authorize="isAnonymous()">
+<!--    <section class="videso_section" sec:authorize="isAnonymous()" >-->
+        <div class="info-pr-sec">
+            <div class="container">
+                <div class="vcp_inf cr">
+					<span class="vc_hd" >
+						 <img th:src="@{'/assert/img/' + ${user.getAvatar()}}"  alt="avatar">
+					</span>
+                    <div class="vc_info pr">
+                        <h3 th:text="${user.getFullName()}" >DOG</h3>
+                        <span th:text="${user.getLevel()}">Level</span>
+                    </div>
+                </div><!--vcp_inf end-->
+                <div class="search_form">
+                    <form>
+                        <input type="text" name="search" placeholder="Search Videos">
+                        <button type="submit">
+                            <i class="icon-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div><!--info-pr-sec end-->
+        <div class="history-lst tbY">
+            <div class="container">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="about-tab" data-toggle="tab" th:href="@{/detail-user/__${user.id}__}" role="tab"
+                           aria-controls="about-tab" aria-selected="false">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <!--                        <a class="nav-link" id="amazon-tab" data-toggle="tab" href="#amazong-tb" role="tab"-->
+                        <!--                           aria-controls="amazon-tab" aria-selected="false">Amazon Products</a>-->
+                        <a class="nav-link" id="amazon-tab" data-toggle="tab" th:href="@{/detail-user/topic/__${user.id}__}" role="tab"
+                           aria-controls="amazon-tab" aria-selected="false">Topic</a>
+                    </li>
+                </ul><!--nav-tabs end-->
+                <div class="clearfix"></div>
+            </div>
+        </div><!--history-lst end-->
+        <div class="tab-content p-0" id="myTabContent">
+            <div class="tab-pane fade show active" id="about_tab" role="tabpanel" aria-labelledby="about-tab">
+                <div class="about_tab_content">
+                    <div class="container">
+                        <div class="description">
+                            <div class="row">
+<!--                                <div class="col-lg-8">-->
+<!--                                    <div class="decp_cotnet">-->
+<!--                                        <h2 class="ab-fd">Description </h2>-->
+<!--                                        <p>Welcome to the official Saturday Night Live channel on YouTube! Here you will-->
+<!--                                            find your favorite sketches, behind the scenes clips and web exclusives,-->
+<!--                                            featuring all your favorite hosts and cast members. Check out more SNL at-->
+<!--                                            http://www.nbc.com/</p>-->
+<!--                                    </div>&lt;!&ndash;abt-founder end&ndash;&gt;-->
+<!--                                </div>-->
+                                <div class="col-lg-4">
+                                    <div class="stats">
+                                        <h2 class="ab-fd">Stats</h2>
+                                        <ul>
+                                            <li th:text="'Joined ' + ${user.getDateCreate()}"></li>
+                                            <li>3,741,400,119 views</li>
+                                        </ul>
+                                    </div><!--stats end-->
+                                    <div class="flagg">
+                                        <ul>
+                                            <li>
+                                                <a href="#" title="">
+                                                    <i class="icon-flag"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" title="">
+                                                    <i class="icon-message"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div><!--flagg end-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--about_tab_content end-->
+            </div>
+        </div>
+    </section><!--Featured Videos end-->
+    <!--    ** Đăng nhập khác user đăng nhập-->
+    <section class="videso_section" sec:authorize="isAuthenticated()"  th:if="${userCurrent.getId()} != ${user.getId()}">
+<!--    <section class="videso_section" sec:authorize="isAnonymous()" >-->
+        <div class="info-pr-sec">
+            <div class="container">
+                <div class="vcp_inf cr">
+					<span class="vc_hd" >
+						 <img th:src="@{'/assert/img/' + ${user.getAvatar()}}"  alt="avatar">
+					</span>
+                    <div class="vc_info pr">
+                        <h3 th:text="${user.getFullName()}" >DOG</h3>
+                        <span th:text="${user.getLevel()}">Level</span>
+                    </div>
+                </div><!--vcp_inf end-->
+                <div class="search_form">
+                    <form>
+                        <input type="text" name="search" placeholder="Search Videos">
+                        <button type="submit">
+                            <i class="icon-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div><!--info-pr-sec end-->
+        <div class="history-lst tbY">
+            <div class="container">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="about-tab" data-toggle="tab" th:href="@{/detail-user/__${user.id}__}" role="tab"
+                           aria-controls="about-tab" aria-selected="false">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <!--                        <a class="nav-link" id="amazon-tab" data-toggle="tab" href="#amazong-tb" role="tab"-->
+                        <!--                           aria-controls="amazon-tab" aria-selected="false">Amazon Products</a>-->
+                        <a class="nav-link" id="amazon-tab" data-toggle="tab" th:href="@{/detail-user/topic/__${user.id}__}" role="tab"
+                           aria-controls="amazon-tab" aria-selected="false">Topic</a>
+                    </li>
+                </ul><!--nav-tabs end-->
+                <div class="clearfix"></div>
+            </div>
+        </div><!--history-lst end-->
+        <div class="tab-content p-0" id="myTabContent">
+            <div class="tab-pane fade show active" id="about_tab" role="tabpanel" aria-labelledby="about-tab">
+                <div class="about_tab_content">
+                    <div class="container">
+                        <div class="description">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="decp_cotnet">
+                                        <h2 class="ab-fd">Description </h2>
+                                        <p>Hello World!!!</p>
+                                    </div><!--abt-founder end-->
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="stats">
+                                        <h2 class="ab-fd">Stats</h2>
+                                        <ul>
+                                            <li th:text="'Joined ' + ${user.getDateCreate()}"></li>
+                                            <li>3,741,400,119 views</li>
+                                        </ul>
+                                    </div><!--stats end-->
+                                    <div class="flagg">
+                                        <ul>
+                                            <li>
+                                                <a href="#" title="">
+                                                    <i class="icon-flag"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" title="">
+                                                    <i class="icon-message"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div><!--flagg end-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--about_tab_content end-->
+            </div>
+        </div>
+    </section><!--Featured Videos end-->
+</div><!--wrapper end-->
+<!-- FOOTER -->
+
+<footer th:replace="/views/layout :: footer">
+
+</footer>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/script.js"></script>
+
+
+</body>
+</html>

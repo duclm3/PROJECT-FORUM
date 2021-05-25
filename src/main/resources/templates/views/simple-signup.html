@@ -1,0 +1,152 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en-US">
+<head th:replace="/views/layout :: head">
+</head>
+<body>
+
+<div class="signup">
+    <!-- HEADER -->
+    <header class="signup__header">
+        <div class="container">
+            <div class="signup__header-content">
+                <p><a th:href="@{/home}" th:text="#{already_have_an_account}">Already have an account?</a></p>
+                <a th:href="@{/home}" class="btn" th:text="#{sign_in}">Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="signup__main">
+        <img class="signup__bg" src="/assert/images/signup-bg.png" alt="bg">
+
+        <div class="container">
+            <div class="signup__container">
+                <div class="signup__logo">
+                    <a th:href="@{/}"><img src="/assert/fonts/icons/main/Logo_Forum.svg" alt="logo">Unity</a>
+                </div>
+
+                <div class="signup__head">
+                    <h3 th:text="#{create_a_New_Unity_Account}">Create a New Unity Account</h3>
+                    <p th:text="#{by_singin_up_you}">By singin up you can start posting, replaying to topics, earn badges, favorite, vote topics and many more.</p>
+                </div>
+
+                <form class="form-horizontal" th:action="@{/create-user}" th:object="${user}"
+                      method="POST" enctype="multipart/form-data">
+
+                <div class="signup__form">
+                    <div class="notify" style="text-align: center; color: #4CAF50">
+                        <div th:if="${success}">
+                            <span th:text="${success}"></span>
+                            <a th:href="@{/home}" class="btn">Sign in now?</a>
+                        </div>
+                    </div>
+                    <div class="notify" style="text-align: center; color: red">
+                        <div th:if="${error}">
+                            <span th:text="${error}"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" data-visible="desktop">
+                        <div class="col-md-12">
+                            <div class="signup__section">
+                                <label class="signup__label" for="first-name" th:text="#{full_Name}">Full Name</label>
+                                <input name="fullName" required="" type="text" class="form-control" id="first-name" value="Jane" th:field="*{fullName}">
+                                <span style="color: red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Name Error</span>
+                            </div>
+                        </div>
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="signup__section">-->
+<!--                                <label class="signup__label" for="last-name">Last Name</label>-->
+<!--                                <input type="text" class="form-control" id="last-name" value="Doe">-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </div>
+                    <div class="signup__section">
+                        <label class="signup__label" for="username" th:text="#{username}">Username</label>
+                        <input name="username" required="" type="text" class="form-control" id="username" value="Janeunity9" th:field="*{username}">
+                        <span style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</span>
+                    </div>
+                    <div class="signup__section">
+                        <label class="signup__label" for="email" th:text="#{email_Address}">Email Address</label>
+                        <input type="text" class="form-control" id="email" value="Jane326@gmail.com" th:field="*{email}" required="">
+                        <span style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</span>
+                    </div>
+                    <div class="signup__section">
+                        <label class="signup__label" for="password" th:text="#{password}">Password</label>
+                        <div class="message-input">
+                            <input name="password" required="" type="password" class="form-control" id="password" value="*********" th:field="*{password}">
+                            <span style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</span>
+<!--                            <span class="message-input__strong">strong</span>-->
+                        </div>
+                    </div>
+
+                    <!-- File Button -->
+                    <div class="signup__section">
+                        <label class="signup__label" for="username" th:text="#{avatar}">Avatar</label>
+                        <div class="message-input">
+                            <input id="email" name="avatar" class="form-control" type="file" th:field="*{avatar}">
+                        </div>
+                    </div>
+<!--                    <div class="signup__checkbox">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6">-->
+<!--                                <label class="signup__box">-->
+<!--                                    <label class="custom-checkbox">-->
+<!--                                        <input type="checkbox" checked="checked">-->
+<!--                                        <i></i>-->
+<!--                                    </label>-->
+<!--                                    <span>I agree to the Terms & Conditions.</span>-->
+<!--                                </label>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6" data-visible="desktop">-->
+<!--                                <label class="signup__box">-->
+<!--                                    <label class="custom-checkbox">-->
+<!--                                        <input type="checkbox">-->
+<!--                                        <i></i>-->
+<!--                                    </label>-->
+<!--                                    <span>Subscribe to newsletter</span>-->
+<!--                                </label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <a href="#" class="signup__btn-create btn btn&#45;&#45;type-02">Create New Account</a>-->
+                    <button class="signup__btn-create btn btn--type-02" th:text="#{create_New_Account}">Create New Account</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="signup__footer">
+        <div class="container">
+            <div class="signup__footer-content">
+                <ul class="signup__footer-menu">
+                    <li><a href="#" th:text="#{teams}">Teams</a></li>
+                    <li><a href="#" th:text="#{privacy}">Privacy</a></li>
+                    <li><a href="#" th:text="#{send_feedback}">Send Feedback</a></li>
+                </ul>
+                <ul class="signup__footer-social">
+                    <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-cloud" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<footer th:replace="/views/layout :: footer">
+</footer>
+<!--    &lt;!&ndash; JAVA SCRIPT &ndash;&gt;-->
+<!--    <script src="vendor/jquery/jquery.min.js"></script>-->
+<!--    <script src="vendor/velocity/velocity.min.js"></script>-->
+<!--    <script src="js/app.js"></script>-->
+
+</body>
+</html>
